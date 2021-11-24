@@ -1,0 +1,42 @@
+{
+  "loanAppResumptionInfo": {
+    "loanAppId": 101986069,
+    "loanAppUuid": "611e03aa-81de-4bf3-ae33-3995e43d0cfb",
+    "referrer": "LENDING_TREE",
+    "status": "EXPIRED",
+    "productType": "PERSONAL_LOAN",
+    "sourceSystem": "PARTNER_FUNNEL_V2",
+    "desiredAmount": 25000.00,
+    "borrowerResumptionInfo": {
+      "firstName": "Benjamin",
+      "maskedEmail": "q********6@upgrade.com",
+      "ssnRequired": false,
+      "state": "OH",
+      "email": "qa.preprod210618211325366@upgrade.com"
+    },
+    "coBorrowerResumptionInfo": null,
+    "turnDown": false,
+    "hasLogin": false,
+    "availableAppImprovements": null,
+    "cashOutAmount": null,
+    "canAddCollateral": false,
+    "rewardProgramId": null,
+    "rewardProgramCode": null,
+    "addon": null,
+    "isMobileDiscountApplied": null,
+    "checkingDiscountAvailable": false
+  },
+  "offers": [
+
+  ],
+  "selectedOffer": null,
+  "requiredAgreements": [
+
+  ],
+  "resetOptions": [
+    "LEAD_SECRET",
+    "WIPE",
+    "DEACTIVATE_USER"
+  ],
+  "originalLoanApp": null
+}

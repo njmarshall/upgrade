@@ -1,0 +1,14 @@
+{
+  "upgrade": {
+    "loanapp": [
+      {
+        "test-name": "verifyAppliedLoanTest",
+        "content-type": "import org.junit.Assert;",
+        "headers": [
+          "x-cf-source-id", "coding-challenge",
+          "x-cf-corr-id", "{ID}"
+        ]
+      }
+    ]
+  }
+}
