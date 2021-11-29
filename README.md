@@ -64,5 +64,20 @@ The assignment is a test automation in both front and back ends written in Java.
                                 ├── OfferInfoPage.java
                                 └── PortalLoginPage.java
 ```
-
-
+## Build & Run Tests via maven command lines
+Run build & compile
+```
+    mvn clean compile test-compile
+```
+Run both api & ui tests
+```
+    mvn test
+```
+Run api tests
+```
+    mvn -Dtest=LoadAppApiTest test
+```
+Run ui test
+```
+    mvn -Dtest=LoadAppLoginUITest test
+```
