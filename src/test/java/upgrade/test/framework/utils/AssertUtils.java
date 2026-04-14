@@ -3,125 +3,69 @@ package upgrade.test.framework.utils;
 import org.junit.jupiter.api.Assertions;
 import upgrade.test.framework.models.LoanAppInfo;
 
+/**
+ * Custom assertion utilities for domain model comparisons.
+ *
+ * Now that LoanAppInfo and its nested models implement equals()/hashCode(),
+ * a single assertEquals call covers the full object graph.
+ * Field-level assertions are kept as a diagnostic fallback so that failures
+ * report exactly which field diverged.
+ */
 public class AssertUtils {
 
-    public static void assertEqualsOfLoadAppObjects(
-        LoanAppInfo expectedObj,
-        LoanAppInfo actualObj) {
+    private AssertUtils() {
+        // Utility class — not instantiable
+    }
 
-        // Loan App Resumption Info
-        // Loan App Id
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getLoanAppId(),
-                actualObj.loanAppResumptionInfo.getLoanAppId());
-        // Loan App Uuid
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getLoanAppUuid(),
-                actualObj.loanAppResumptionInfo.getLoanAppUuid());
-        // Referrer
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getReferrer(),
-                actualObj.loanAppResumptionInfo.getReferrer());
-        // Status
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getStatus(),
-                actualObj.loanAppResumptionInfo.getStatus());
-        // Product Type
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getProductType(),
-                actualObj.loanAppResumptionInfo.getProductType());
-        // Desired Amount
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getDesiredAmount(),
-                actualObj.loanAppResumptionInfo.getDesiredAmount());
+    /**
+     * Assert two LoanAppInfo objects are equal.
+     * Performs a top-level equals check first; if that fails, delegates to
+     * granular field assertions so the failure message identifies the mismatch.
+     */
+    public static void assertEqualsOfLoadAppObjects(LoanAppInfo expected, LoanAppInfo actual) {
+        if (!expected.equals(actual)) {
+            assertLoanAppResumptionInfoFields(expected, actual);
+            assertTopLevelFields(expected, actual);
+        }
+    }
 
-        // Borrower Resumption Info
-        // First name
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.borrowerResumptionInfo.getFirstName(),
-                actualObj.loanAppResumptionInfo.borrowerResumptionInfo.getFirstName());
-        // Masked Email
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.borrowerResumptionInfo.getMaskedEmail(),
-                actualObj.loanAppResumptionInfo.borrowerResumptionInfo.getMaskedEmail());
-        // SSN Required
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.borrowerResumptionInfo.isSsnRequired(),
-                actualObj.loanAppResumptionInfo.borrowerResumptionInfo.isSsnRequired());
-        // State
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.borrowerResumptionInfo.getState(),
-                actualObj.loanAppResumptionInfo.borrowerResumptionInfo.getState());
-        // Email
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.borrowerResumptionInfo.getEmail(),
-                actualObj.loanAppResumptionInfo.borrowerResumptionInfo.getEmail());
+    private static void assertLoanAppResumptionInfoFields(LoanAppInfo expected, LoanAppInfo actual) {
+        var exp = expected.loanAppResumptionInfo;
+        var act = actual.loanAppResumptionInfo;
 
-        // Loan Resumption Info
-        // Co-borrower Resumption Info
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getCoBorrowerResumptionInfo(),
-                actualObj.loanAppResumptionInfo.getCoBorrowerResumptionInfo());
-        // Turn Down
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.isTurnDown(),
-                actualObj.loanAppResumptionInfo.isTurnDown());
-        // Has Login
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.isHasLogin(),
-                actualObj.loanAppResumptionInfo.isHasLogin());
-        // Available App Improvements
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getAvailableAppImprovements(),
-                actualObj.loanAppResumptionInfo.getAvailableAppImprovements());
-        // Cash Out Amount
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getCashOutAmount(),
-                actualObj.loanAppResumptionInfo.getCashOutAmount());
-        // Can Add Collateral
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.isCanAddCollateral(),
-                actualObj.loanAppResumptionInfo.isCanAddCollateral());
-        // Reward Program Id
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getRewardProgramId(),
-                actualObj.loanAppResumptionInfo.getRewardProgramId());
-        // Reward Program Code
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getRewardProgramCode(),
-                actualObj.loanAppResumptionInfo.getRewardProgramCode());
-        // Add on
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.getAddon(),
-                actualObj.loanAppResumptionInfo.getAddon());
-        // Is Mobile Discount Applied
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.isMobileDiscountApplied(),
-                actualObj.loanAppResumptionInfo.isMobileDiscountApplied());
-        // Checking Discount Applied
-        Assertions.assertEquals(
-                expectedObj.loanAppResumptionInfo.isCheckingDiscountAvailable(),
-                actualObj.loanAppResumptionInfo.isCheckingDiscountAvailable());
+        Assertions.assertEquals(exp.getLoanAppId(),     act.getLoanAppId(),     "loanAppId mismatch");
+        Assertions.assertEquals(exp.getLoanAppUuid(),   act.getLoanAppUuid(),   "loanAppUuid mismatch");
+        Assertions.assertEquals(exp.getReferrer(),      act.getReferrer(),      "referrer mismatch");
+        Assertions.assertEquals(exp.getStatus(),        act.getStatus(),        "status mismatch");
+        Assertions.assertEquals(exp.getProductType(),   act.getProductType(),   "productType mismatch");
+        Assertions.assertEquals(exp.getDesiredAmount(), act.getDesiredAmount(), "desiredAmount mismatch");
 
-        // Misc Fields
-        Assertions.assertEquals(
-                expectedObj.getOffers(),
-                actualObj.getOffers());
-        // Selected Offer
-        Assertions.assertEquals(
-                expectedObj.getSelectedOffer(),
-                actualObj.getSelectedOffer());
-        // Required Aggreements
-        Assertions.assertEquals(
-                expectedObj.getRequiredAgreements(),
-                actualObj.getRequiredAgreements());
-        // Reset Options
-        Assertions.assertEquals(
-                expectedObj.getResetOptions(),
-                actualObj.getResetOptions());
-        // Original Loan App
-        Assertions.assertEquals(
-                expectedObj.getOffers(),
-                actualObj.getOffers());
+        var expB = exp.borrowerResumptionInfo;
+        var actB = act.borrowerResumptionInfo;
+        Assertions.assertEquals(expB.getFirstName(),   actB.getFirstName(),   "borrower.firstName mismatch");
+        Assertions.assertEquals(expB.getMaskedEmail(), actB.getMaskedEmail(), "borrower.maskedEmail mismatch");
+        Assertions.assertEquals(expB.isSsnRequired(),  actB.isSsnRequired(),  "borrower.ssnRequired mismatch");
+        Assertions.assertEquals(expB.getState(),       actB.getState(),       "borrower.state mismatch");
+        Assertions.assertEquals(expB.getEmail(),       actB.getEmail(),       "borrower.email mismatch");
+
+        Assertions.assertEquals(exp.getCoBorrowerResumptionInfo(),  act.getCoBorrowerResumptionInfo(),  "coBorrower mismatch");
+        Assertions.assertEquals(exp.isTurnDown(),                   act.isTurnDown(),                   "turnDown mismatch");
+        Assertions.assertEquals(exp.isHasLogin(),                   act.isHasLogin(),                   "hasLogin mismatch");
+        Assertions.assertEquals(exp.getAvailableAppImprovements(),  act.getAvailableAppImprovements(),  "availableAppImprovements mismatch");
+        Assertions.assertEquals(exp.getCashOutAmount(),             act.getCashOutAmount(),             "cashOutAmount mismatch");
+        Assertions.assertEquals(exp.isCanAddCollateral(),           act.isCanAddCollateral(),           "canAddCollateral mismatch");
+        Assertions.assertEquals(exp.getRewardProgramId(),           act.getRewardProgramId(),           "rewardProgramId mismatch");
+        Assertions.assertEquals(exp.getRewardProgramCode(),         act.getRewardProgramCode(),         "rewardProgramCode mismatch");
+        Assertions.assertEquals(exp.getAddon(),                     act.getAddon(),                     "addon mismatch");
+        Assertions.assertEquals(exp.isMobileDiscountApplied(),      act.isMobileDiscountApplied(),      "mobileDiscountApplied mismatch");
+        Assertions.assertEquals(exp.isCheckingDiscountAvailable(),  act.isCheckingDiscountAvailable(),  "checkingDiscountAvailable mismatch");
+    }
+
+    private static void assertTopLevelFields(LoanAppInfo expected, LoanAppInfo actual) {
+        Assertions.assertEquals(expected.getOffers(),             actual.getOffers(),             "offers mismatch");
+        Assertions.assertEquals(expected.getSelectedOffer(),      actual.getSelectedOffer(),      "selectedOffer mismatch");
+        Assertions.assertEquals(expected.getRequiredAgreements(), actual.getRequiredAgreements(), "requiredAgreements mismatch");
+        Assertions.assertEquals(expected.getResetOptions(),       actual.getResetOptions(),       "resetOptions mismatch");
+        Assertions.assertEquals(expected.getOriginalLoanApp(),    actual.getOriginalLoanApp(),    "originalLoanApp mismatch");
     }
 }

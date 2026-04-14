@@ -1,5 +1,7 @@
 package upgrade.test.framework.models;
 
+import java.util.Objects;
+
 public class LoanInfo {
 
     private int amount;
@@ -10,19 +12,26 @@ public class LoanInfo {
         this.purpose = purpose;
     }
 
-    public int getAmount() {
-        return amount;
+    public int getAmount()              { return amount; }
+    public void setAmount(int v)        { this.amount = v; }
+    public String getPurpose()          { return purpose; }
+    public void setPurpose(String v)    { this.purpose = v; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LoanInfo)) return false;
+        LoanInfo that = (LoanInfo) o;
+        return amount == that.amount && Objects.equals(purpose, that.purpose);
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, purpose);
     }
 
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
+    @Override
+    public String toString() {
+        return String.format("LoanInfo{amount=%d, purpose='%s'}", amount, purpose);
     }
 }
