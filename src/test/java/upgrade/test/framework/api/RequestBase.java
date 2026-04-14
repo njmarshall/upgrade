@@ -19,25 +19,35 @@ public class RequestBase {
         this.url = HttpUtils.getURLfromString(aUrl);
     }
 
-    /*
-        Authentication is set using
-        given().
-            auth().preemptive().basic(authUser, authPassword).
+    /**
+     * Configure HTTP Basic Authentication for subsequent requests.
      */
     protected void basicAuth(String user, String password) {
         this.authUser = user;
         this.authPassword = password;
     }
 
+    /**
+     * Execute a POST request with the given payload, headers, and content type.
+     *
+     * @param payLoad     request body (must not be null or empty)
+     * @param headers     optional HTTP headers
+     * @param contentType MIME type of the request body
+     * @return the RestAssured Response
+     */
     protected Response post(String payLoad, Headers headers, String contentType) {
-        RequestSpecification request = RestAssured.given();
-
-        if(payLoad == null) {
-            throw new NullPointerException("post: payLoad argument cannot be null");
+        if (payLoad == null) {
+            throw new IllegalArgumentException("post: payLoad argument cannot be null");
+        }
+        // Fix: use isEmpty() instead of == "" (reference comparison is unreliable)
+        if (payLoad.trim().isEmpty()) {
+            throw new IllegalArgumentException("post: payLoad argument cannot be empty");
         }
 
-        if (payLoad.trim() == "") {
-            throw new ArithmeticException("post: payLoad argument cannot be empty");
+        RequestSpecification request = RestAssured.given();
+
+        if (!Strings.isNullOrEmpty(authUser)) {
+            request = request.auth().preemptive().basic(authUser, authPassword);
         }
 
         if (headers != null) {
@@ -48,12 +58,11 @@ public class RequestBase {
             request = request.contentType(contentType);
         }
 
-        Response response =
-            request.
-                body(payLoad).
-            when().
-                post(url.toExternalForm()).andReturn().
-            thenReturn();
+        Response response = request
+                .body(payLoad)
+                .when()
+                .post(url.toExternalForm())
+                .thenReturn();
 
         HttpUtils.LogResponseEverything(response);
         return response;

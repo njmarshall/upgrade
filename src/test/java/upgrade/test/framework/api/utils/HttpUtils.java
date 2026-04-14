@@ -7,34 +7,34 @@ import java.net.URL;
 
 public class HttpUtils {
 
-    public static URL getURLfromString(String aString){
+    private HttpUtils() {
+        // Utility class — not instantiable
+    }
+
+    public static URL getURLfromString(String aString) {
         try {
             return new URL(aString);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(
-                    String.format(
-                            "URL %s is not correctly formatted",
-                            aString));
+            throw new IllegalArgumentException(
+                    String.format("URL '%s' is not correctly formatted", aString), e);
         }
     }
 
-    public static void LogResponseEverything(Response response) {
-        LogResponseStatus(response);
-        LogResponseHeaders(response);
-        LogResponseBody(response);
+    public static void logResponseEverything(Response response) {
+        logResponseStatus(response);
+        logResponseHeaders(response);
+        logResponseBody(response);
     }
 
-    public static void LogResponseStatus(Response response) {
+    public static void logResponseStatus(Response response) {
         response.then().log().status();
     }
 
-    public static void LogResponseHeaders(Response response) {
+    public static void logResponseHeaders(Response response) {
         response.then().log().headers();
     }
 
-    public static void LogResponseBody(Response response) {
+    public static void logResponseBody(Response response) {
         response.then().log().body();
     }
-
 }

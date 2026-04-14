@@ -6,33 +6,38 @@ import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import upgrade.test.framework.core.ConfigManager;
 import upgrade.test.framework.testdata.TestDataRetriever;
 
+/**
+ * Base class for all Selenium UI tests.
+ * Manages ChromeDriver lifecycle and shared test data.
+ * Headless mode is controlled via config (browser.headless=true/false).
+ */
 public class BaseUITest {
-    protected static TestDataRetriever testData = null;
+
+    protected static TestDataRetriever testData;
     protected static WebDriver driver;
 
     @BeforeAll
-    public static void beforeSuite() {
+    static void beforeSuite() {
         testData = new TestDataRetriever();
 
-        System.setProperty("headless", "false"); // You can set this property elsewhere
-        String headless = System.getProperty("headless");
-
         ChromeDriverManager.chromedriver();
-        if (!"true".equals(headless)) {
-            driver = new ChromeDriver();
-        } else {
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--headless");
-            driver = new ChromeDriver(chromeOptions);
+
+        ChromeOptions options = new ChromeOptions();
+        if (ConfigManager.getInstance().isBrowserHeadless()) {
+            options.addArguments("--headless", "--disable-gpu", "--window-size=1920,1080");
         }
+        driver = new ChromeDriver(options);
+        driver.manage().window().maximize();
     }
 
     @AfterAll
-    public static void afterSuite() {
-        if(null != driver) {
+    static void afterSuite() {
+        if (driver != null) {
             driver.quit();
+            driver = null;
         }
     }
 }
