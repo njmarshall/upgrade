@@ -1,0 +1,15 @@
+# Maven
+target/
+*.class
+
+# Config with real credentials/IDs - never commit
+src/test/resources/config.local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
