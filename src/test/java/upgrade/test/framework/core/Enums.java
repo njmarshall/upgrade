@@ -1,65 +1,82 @@
 package upgrade.test.framework.core;
 
+/**
+ * Domain enumerations for the test framework.
+ */
 public class Enums {
 
+    private Enums() { }
+
+    /**
+     * Standard HTTP status codes used in API test assertions.
+     * Covers 1xx informational, 2xx success, 3xx redirect, 4xx client error,
+     * and 5xx server error ranges relevant to the Upgrade loan API.
+     */
     public enum HttpStatusCode {
-        CONTINUE(100, "continue"),
-        SWITCHING_PROTOCOL(101, "switching protocols"),
-        PROCESSING(102, "processing"),
 
-        OK(200, "ok"),
-        CREATED(201, "created"),
-        ACCEPTED(202, "accepted"),
-        NON_AUTHORITATIVE_INFO(203, "non-authoritative information"),
-        NO_CONTENT(204, "no content"),
-        RESET_CONTENT(205, "reset content"),
-        PARTIAL_CONTENT(206, "partial content"),
-        MULTI_STATUS(207, "multi-status (webdav; rfc 4918"),
+        // 1xx Informational
+        CONTINUE(100, "Continue"),
+        SWITCHING_PROTOCOLS(101, "Switching Protocols"),
+        PROCESSING(102, "Processing"),
 
-        USE_PROXY(305, "use proxy (since http/1.1)"),
-        SWITCH_PROXY(306, "switch proxy"),
+        // 2xx Success
+        OK(200, "OK"),
+        CREATED(201, "Created"),
+        ACCEPTED(202, "Accepted"),
+        NO_CONTENT(204, "No Content"),
+        PARTIAL_CONTENT(206, "Partial Content"),
 
-        BAD_REQUEST(400, "bad request"),
-        UNAUTHORIZED(401, "unauthorized"),
-        PAYMENT_REQUIRED(402, "payment required"),
-        FORBIDDEN(403, "forbidden"),
-        NOT_FOUND(404, "not found"),
-        METHOD_NOT_ALLOWED(405, "method not allowed"),
-        NOT_ACCEPTABLE(406, "not acceptable"),
-        PROXY_AUTHENTICATION_REQUIRED(407, "proxy authentication required"),
-        REQUEST_TIMEOUT(408, "request timeout"),
-        CONFLICT(409, "conflict"),
+        // 3xx Redirection
+        MOVED_PERMANENTLY(301, "Moved Permanently"),
+        FOUND(302, "Found"),
+        NOT_MODIFIED(304, "Not Modified"),
 
-        INTERNAL_SERVER_ERROR(500, "internal server error"),
-        NOT_IMPLEMENTS(501, "not implemented"),
-        BAD_GATEWAY(502, "bad gateway"),
-        SERVICE_UNAVAILABLE(503, "service unavailable"),
-        GATEWAY_TIMEOUT(504, "gateway timeout"),
-        HTTP_VERSION_NOT_SUPPORTED(505, "http version not supported"),
-        variant_also_negotiates(506, "variant also negotiates (rfc 2295)"),
-        INSUFFICIENT_STORAGE(507, "insufficient storage (webdav; rfc 4918)"),
-        LOOP_DETECTED(508, "loop detected (webdav; rfc 5842)"),
-        BANDWIDTH_LIMIT_EXCEEDED(509, "bandwidth limit exceeded (apache bw/limited extension)"),
-        NOT_EXTEND(510, "not extended (rfc 2774)"),
-        NETWORK_AUTHENTICATION_REQUIRED(511, "network authentication required (rfc 6585)"),
-        CONNECTION_TIMED_OUT(522, "connection timed out"),
-        PROXY_DECLINED_REQUEST(523, "proxy declined request"),
-        TIMEOUT_OCCURRED(524, "a timeout occurred");
+        // 4xx Client Errors
+        BAD_REQUEST(400, "Bad Request"),
+        UNAUTHORIZED(401, "Unauthorized"),
+        FORBIDDEN(403, "Forbidden"),
+        NOT_FOUND(404, "Not Found"),
+        METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
+        CONFLICT(409, "Conflict"),
+        UNPROCESSABLE_ENTITY(422, "Unprocessable Entity"),
+        TOO_MANY_REQUESTS(429, "Too Many Requests"),
 
-        private int code;
-        private String desc;
+        // 5xx Server Errors
+        INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+        BAD_GATEWAY(502, "Bad Gateway"),
+        SERVICE_UNAVAILABLE(503, "Service Unavailable"),
+        GATEWAY_TIMEOUT(504, "Gateway Timeout");
 
-        HttpStatusCode(int code, String desc) {
+        private final int code;
+        private final String description;
+
+        HttpStatusCode(int code, String description) {
             this.code = code;
-            this.desc = desc;
+            this.description = description;
         }
 
         public int getCode() {
             return code;
         }
 
-        public String getDesc() {
-            return desc;
+        public String getDescription() {
+            return description;
+        }
+
+        /**
+         * Looks up an HttpStatusCode by its numeric code.
+         * @throws IllegalArgumentException if no matching code is found
+         */
+        public static HttpStatusCode fromCode(int code) {
+            for (HttpStatusCode status : values()) {
+                if (status.code == code) return status;
+            }
+            throw new IllegalArgumentException("Unknown HTTP status code: " + code);
+        }
+
+        @Override
+        public String toString() {
+            return code + " " + description;
         }
     }
 }
