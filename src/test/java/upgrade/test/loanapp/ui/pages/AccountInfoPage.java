@@ -4,12 +4,20 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import upgrade.test.framework.ui.BasePage;
 
+/**
+ * Page object for the account creation step of the loan application funnel.
+ * Collects email address, password, and legal agreement checkbox.
+ */
 public class AccountInfoPage extends BasePage {
 
-    private final By EMAIL_ADDRESS_LOCATOR = By.name("username");
-    private final By PASSWORD_LOCATOR = By.name("password");
-    private final By AGREEMENTS_LOCATOR = By.name("agreements");
-    private final By SUBMIT_LOCATOR = By.xpath("//button[contains(text(), 'Check Your Rate')]");
+    private final By EMAIL_ADDRESS_LOCATOR =
+            By.name("username");
+    private final By PASSWORD_LOCATOR =
+            By.name("password");
+    private final By AGREEMENTS_LOCATOR =
+            By.name("agreements");
+    private final By SUBMIT_LOCATOR =
+            By.xpath("//button[contains(text(), 'Check Your Rate')]");
 
     public AccountInfoPage(final WebDriver driver) {
         super(driver);
@@ -24,6 +32,9 @@ public class AccountInfoPage extends BasePage {
         enterInputField(PASSWORD_LOCATOR, value);
     }
 
+    /**
+     * Ensures the terms and conditions checkbox is selected.
+     */
     public void checkAgreements() {
         selectCheckBox(AGREEMENTS_LOCATOR, true);
     }

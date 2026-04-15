@@ -10,36 +10,33 @@ import upgrade.test.framework.api.RequestBase;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * API request class for the Loan Application resumption endpoint.
+ * Builds and sends POST requests with the required Credify headers.
+ */
 public class LoadAppRequest extends RequestBase {
 
     /**
-     *  Create API instance for a given user to access the URL
-     *
-     * @param endpoint - main URL for the loadApp system
+     * @param endpoint the full URL for the loan app resumption API
      */
-    public LoadAppRequest(String endpoint){
+    public LoadAppRequest(String endpoint) {
         super(endpoint);
     }
 
-    public Response getLoadAppId(String UuId, boolean skipSideEffects) {
-        return getLoadAppId(UuId, skipSideEffects, ContentType.JSON.toString());
+    public Response getLoadAppId(String uuid, boolean skipSideEffects) {
+        return getLoadAppId(uuid, skipSideEffects, ContentType.JSON.toString());
     }
 
-    public Response getLoadAppId(String UuId, boolean skipSideEffects, String contentType) {
-
-        List<Header> newHeaders = new ArrayList<Header>();
-        newHeaders.add(new Header("x-cf-source-id", "coding-challenge"));
-        newHeaders.add(new Header("x-cf-corr-id", UuId));
-        Headers headers = new Headers(newHeaders);
+    public Response getLoadAppId(String uuid, boolean skipSideEffects, String contentType) {
+        List<Header> headerList = new ArrayList<>();
+        headerList.add(new Header("x-cf-source-id", "coding-challenge"));
+        headerList.add(new Header("x-cf-corr-id", uuid));
+        Headers headers = new Headers(headerList);
 
         JSONObject requestParams = new JSONObject();
-        requestParams.put("loanAppUuid", UuId);
+        requestParams.put("loanAppUuid", uuid);
         requestParams.put("skipSideEffects", skipSideEffects);
 
-        return post(
-                requestParams.toJSONString(),
-                headers,
-                contentType);
+        return post(requestParams.toJSONString(), headers, contentType);
     }
-
 }
