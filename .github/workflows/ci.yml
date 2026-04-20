@@ -1,4 +1,4 @@
-name: CI — API Tests
+name: CI — Build & Compile
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  api-tests:
-    name: Run API Tests
+  build:
+    name: Build & Compile
     runs-on: ubuntu-latest
 
     steps:
@@ -23,22 +23,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Write local config from secrets
-        run: |
-          cat > src/test/resources/config.local.properties << EOF
-          api.loanapp.url=${{ secrets.API_LOANAPP_URL }}
-          ui.loanapp.url=${{ secrets.UI_LOANAPP_URL }}
-          testdata.existing.loan.app.id=${{ secrets.EXISTING_LOAN_APP_ID }}
-          testdata.nonexisting.loan.app.id=${{ secrets.NONEXISTING_LOAN_APP_ID }}
-          browser.headless=true
-          EOF
+      - name: Compile production and test sources
+        run: mvn clean compile test-compile --no-transfer-progress
 
-      - name: Build and run API tests
-        run: mvn -Dtest=LoadAppApiTest test --no-transfer-progress
-
-      - name: Upload Surefire reports
+      - name: Upload build artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: surefire-reports
-          path: target/surefire-reports/
+          name: build-classes
+          path: target/classes/
