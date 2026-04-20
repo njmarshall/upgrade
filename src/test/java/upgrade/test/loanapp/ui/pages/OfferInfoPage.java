@@ -51,7 +51,7 @@ public class OfferInfoPage extends BasePage {
         return getText(INTEREST_RATE_LOCATOR);
     }
 
-    public String getAPR() {
+    public String getApr() {
         return getText(APR_LOCATOR);
     }
 

@@ -49,16 +49,16 @@ public class AssertUtils {
         Assertions.assertEquals(expB.getEmail(),       actB.getEmail(),       "borrower.email mismatch");
 
         Assertions.assertEquals(exp.getCoBorrowerResumptionInfo(),  act.getCoBorrowerResumptionInfo(),  "coBorrower mismatch");
-        Assertions.assertEquals(exp.isTurnDown(),                   act.isTurnDown(),                   "turnDown mismatch");
-        Assertions.assertEquals(exp.isHasLogin(),                   act.isHasLogin(),                   "hasLogin mismatch");
+        Assertions.assertEquals(exp.getTurnDown(),                  act.getTurnDown(),                   "turnDown mismatch");
+        Assertions.assertEquals(exp.getHasLogin(),                  act.getHasLogin(),                   "hasLogin mismatch");
         Assertions.assertEquals(exp.getAvailableAppImprovements(),  act.getAvailableAppImprovements(),  "availableAppImprovements mismatch");
         Assertions.assertEquals(exp.getCashOutAmount(),             act.getCashOutAmount(),             "cashOutAmount mismatch");
-        Assertions.assertEquals(exp.isCanAddCollateral(),           act.isCanAddCollateral(),           "canAddCollateral mismatch");
+        Assertions.assertEquals(exp.getCanAddCollateral(),          act.getCanAddCollateral(),           "canAddCollateral mismatch");
         Assertions.assertEquals(exp.getRewardProgramId(),           act.getRewardProgramId(),           "rewardProgramId mismatch");
         Assertions.assertEquals(exp.getRewardProgramCode(),         act.getRewardProgramCode(),         "rewardProgramCode mismatch");
         Assertions.assertEquals(exp.getAddon(),                     act.getAddon(),                     "addon mismatch");
-        Assertions.assertEquals(exp.isMobileDiscountApplied(),      act.isMobileDiscountApplied(),      "mobileDiscountApplied mismatch");
-        Assertions.assertEquals(exp.isCheckingDiscountAvailable(),  act.isCheckingDiscountAvailable(),  "checkingDiscountAvailable mismatch");
+        Assertions.assertEquals(exp.getIsMobileDiscountApplied(),   act.getIsMobileDiscountApplied(),      "mobileDiscountApplied mismatch");
+        Assertions.assertEquals(exp.getCheckingDiscountAvailable(), act.getCheckingDiscountAvailable(),  "checkingDiscountAvailable mismatch");
     }
 
     private static void assertTopLevelFields(LoanAppInfo expected, LoanAppInfo actual) {
