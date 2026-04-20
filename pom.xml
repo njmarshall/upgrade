@@ -45,6 +45,14 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Lombok — eliminates boilerplate getters/setters/equals/hashCode/toString -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- REST Assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>

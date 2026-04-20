@@ -119,7 +119,7 @@ public class LoadAppLoginUITest extends BaseUITest {
                 offerInfo.getMonthlyPayment(),
                 offerInfo.getTerm(),
                 offerInfo.getInterestRate(),
-                offerInfo.getAPR());
+                offerInfo.getApr());
         offerInfo.signOut();
         return offer;
     }
@@ -139,7 +139,7 @@ public class LoadAppLoginUITest extends BaseUITest {
                 "Term should match after re-login");
         assertEquals(expected.getInterestRate(), actual.getInterestRate(),
                 "Interest rate should match after re-login");
-        assertEquals(expected.getAPR(), actual.getAPR(),
+        assertEquals(expected.getApr(), actual.getApr(),
                 "APR should match after re-login");
     }
 }
