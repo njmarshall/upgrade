@@ -64,7 +64,7 @@ public class RequestBase {
                 .post(url.toExternalForm())
                 .thenReturn();
 
-        HttpUtils.LogResponseEverything(response);
+        HttpUtils.logResponseEverything(response);
         return response;
     }
 }
